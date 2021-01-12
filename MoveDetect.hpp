@@ -1,6 +1,6 @@
 // MoveDetect -- Library to detect whether movement can be detected between two images or video frames.
 // See LICENSE.TXT for details.
-// $Id: $
+// $Id$
 
 #pragma once
 
