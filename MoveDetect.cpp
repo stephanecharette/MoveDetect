@@ -108,6 +108,8 @@ MoveDetect::Handler & MoveDetect::Handler::clear()
 	thumbnail_size				= cv::Size(0, 0);
 	number_of_control_frames	= 2;
 	movement_last_detected		= std::chrono::high_resolution_clock::time_point();
+	calculate_mask				= false;
+	mask						= cv::Mat();
 
 	return *this;
 }
@@ -134,6 +136,8 @@ bool MoveDetect::Handler::detect(const size_t frame_index, cv::Mat & image)
 		thumbnail_size.height = std::round(factor * static_cast<double>(image.rows));
 	}
 
+	mask = cv::Mat();
+
 	cv::Mat scb = image; //simple_colour_balance(image);
 	cv::Mat thumbnail;
 	cv::resize(scb, thumbnail, thumbnail_size, 0, 0, cv::INTER_AREA);
@@ -154,10 +158,39 @@ bool MoveDetect::Handler::detect(const size_t frame_index, cv::Mat & image)
 			movement_detected = true;
 			movement_last_detected = std::chrono::high_resolution_clock::now();
 			frame_index_with_movement = frame_index;
+
+			if (calculate_mask)
+			{
+				cv::Mat differences;
+				cv::absdiff(val, thumbnail, differences);
+
+				// This gives us a very tiny 3-channel image.
+				// Now resize it to match the original image size.
+
+				cv::Mat differences_resized;
+				cv::resize(differences, differences_resized, image.size(), 0, 0, cv::INTER_CUBIC);
+
+				// We'd like to generate a binary threshold, but that requires us to convert
+				// the image to greyscale first.
+				cv::Mat greyscale;
+				cv::cvtColor(differences_resized, greyscale, cv::COLOR_BGR2GRAY);
+				cv::Mat threshold;
+				cv::threshold(greyscale, threshold, 64, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+
+				// And finally we dilate + erode the results to combine regions.
+				cv::Mat dilated;
+				cv::dilate(threshold, dilated, cv::Mat(), cv::Point(-1, -1), 10);
+				cv::Mat eroded;
+				cv::erode(dilated, eroded, cv::Mat(), cv::Point(-1, -1), 10);
+
+				mask = eroded;
+			}
+
 			break;
 		}
 	}
 
+	// see if we need to keep this image as a "key" frame
 	if (frame_index >= next_key_frame)
 	{
 		control[frame_index] = thumbnail;

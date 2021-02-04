@@ -107,5 +107,11 @@ namespace MoveDetect
 			 * compared against the thumbnails stored within.
 			 */
 			ControlMap control;
+
+			/// Set to @p true to get the library to calculate a mask showing where movement was detected.
+			bool calculate_mask;
+
+			/// When @ref calculate_mask is enabled, the results are saved to @p mask.
+			cv::Mat mask;
 	};
 }
