@@ -1,0 +1,21 @@
+/** @mainpage %MoveDetect
+
+@htmlonly[block]
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XBnYu5SL8Oo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+@endhtmlonly
+
+This documentation is available here:
+@li http://www.ccoderun.ca/programming/doxygen/movedetect/
+
+Source code for %MoveDetect is available at https://github.com/stephanecharette/MoveDetect/.<br/>
+
+<div style="padding:1em; margin:2em; border:1px solid black; display:inline-block;">
+%MoveDetect is written by <a target="_blank" href="https://www.ccoderun.ca/stephane/">Stéphane Charette d.b.a. C Code Run</a><br/>
+&copy; 2021 <a target="_blank" href="/stephane/">Stéphane Charette</a><br/>
+http://www.ccoderun.ca/ <br/>
+stephane@ccoderun.ca <br/>
+stephane.charette@gmail.com <br/>
+Tel. +1-250-769-2759 &nbsp; <span style="font-size:80%;">[Pacific Time, PST/PDT]</span>
+</div>
+
+*/

@@ -1,0 +1,54 @@
+/** @page Summary Summary
+
+%MoveDetect uses the standard image processing library OpenCV.  You'll need to link against OpenCV to use %MoveDetect.
+
+To detect movement, you instantiate a @ref MoveDetect::Handler object, and then repeatedly call @ref MoveDetect::Handler::detect() when you have frames to be analyzed.
+
+The @p detect() method will compare the last few frames and return either @p true or @p false to indicate whether movement was detected.
+
+Your code would look similar to this:
+
+~~~~{.cpp}
+#include <MoveDetect.hpp>
+
+void process_video()
+{
+	MoveDetect::Handler handler;
+	cv::VideoCapture video("movie.m4v");
+	while (true)
+	{
+		cv::Mat frame;
+		video >> frame;
+		if (frame.emtpy())
+		{
+			break;
+		}
+
+		const bool movement_detected = handler.detect(frame);
+		if (movement_detected)
+		{
+			do_something_movement_detected(frame);
+		}
+		else
+		{
+			do_something_no_movement(frame);
+		}
+	}
+}
+~~~~
+
+There are many options, including thresholds for the amount of movement required, as well as generating a mask, bounding boxes, and contours.
+
+Several key options to look into:
+
+Configuration Item																	| Image
+------------------------------------------------------------------------------------|------
+@ref MoveDetect::Handler::psnr_threshold											| &nbsp;
+@ref MoveDetect::Handler::key_frame_frequency										| &nbsp;
+@ref MoveDetect::Handler::number_of_control_frames									| &nbsp;
+original video frame																| @image html movement_frame.png
+@ref MoveDetect::Handler::mask_enabled <br/> @ref MoveDetect::Handler::mask			| @image html movement_mask.png
+@ref MoveDetect::Handler::bbox_enabled <br/> @ref MoveDetect::Handler::output		| @image html movement_with_bbox.png
+@ref MoveDetect::Handler::contours_enabled <br/> @ref MoveDetect::Handler::output	| @image html movement_with_contour.png
+
+*/

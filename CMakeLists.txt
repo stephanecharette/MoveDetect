@@ -1,5 +1,7 @@
-# MoveDetect
-# See LICENSE.TXT for details.
+# MoveDetect - C++ library to detect movement.
+# Copyright 2021 Stephane Charette <stephanecharette@gmail.com>
+# MIT license applies.  See "license.txt" for details.
+
 
 CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
 
@@ -19,12 +21,9 @@ FIND_PACKAGE (Threads	REQUIRED)
 FIND_PACKAGE (OpenCV	REQUIRED)
 
 INCLUDE_DIRECTORIES (${OpenCV_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (src-lib)
 
-# static library
-ADD_LIBRARY (movedetect STATIC MoveDetect.cpp)
-INSTALL (TARGETS movedetect DESTINATION lib)
+ADD_SUBDIRECTORY (src-dox)
+ADD_SUBDIRECTORY (src-lib)
+ADD_SUBDIRECTORY (src-test)
 
-# test application
-ADD_EXECUTABLE (movement_detection main.cpp)
-TARGET_LINK_LIBRARIES (movement_detection PRIVATE Threads::Threads ${OpenCV_LIBS} movedetect)
-INSTALL (TARGETS movement_detection DESTINATION bin)
