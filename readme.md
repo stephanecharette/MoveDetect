@@ -24,7 +24,9 @@ MoveDetect requires OpenCV.  On Ubuntu:
 
 # Example Code
 
-MoveDetect has many configuration options to modify the detection threshold, mask output, and drawing bounding boxes and contour lines.
+MoveDetect has many configuration settings to modify the detection threshold, and optionally draw the mask output, bounding boxes, and and contour lines.
+
+![MoveDetect with bounding boxes and contours](src-dox/movement_with_contour_and_bbox.png)
 
 This is how to use it:
 
