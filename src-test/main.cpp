@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 
 		// More expensive but slightly prettier anti-aliased lines.
 		movement_detection.line_type				= cv::LINE_AA;
-		
+
 		// Lower threshold ignore smaller changes, while higher threshold will trigger on smaller movement changes.
 //		movement_detection.psnr_threshold			= 28.0;
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 		cv::VideoWriter video_output;
 		if (save_output_video)
 		{
-			video_output.open("output_" + std::to_string(std::time(nullptr)) + ".mp4", CV_FOURCC('m', 'p', '4', 'v'), input_fps, mat.size());
+			video_output.open("output_" + std::to_string(std::time(nullptr)) + ".mp4", cv::VideoWriter::fourcc('m', 'p', '4', 'v'), input_fps, mat.size());
 		}
 
 		const std::chrono::high_resolution_clock::duration duration = std::chrono::milliseconds(frame_length);
