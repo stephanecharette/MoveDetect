@@ -5,4 +5,4 @@
 # static library
 ADD_LIBRARY (movedetect STATIC MoveDetect.cpp)
 INSTALL (TARGETS movedetect DESTINATION lib)
-
+INSTALL (FILES MoveDetect.hpp DESTINATION include)
