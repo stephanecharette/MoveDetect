@@ -1,6 +1,6 @@
 // MoveDetect -- Library to detect whether movement can be detected between two images or video frames.
-// See LICENSE.TXT for details.
-// $Id$
+// Copyright 2021 Stephane Charette <stephanecharette@gmail.com>
+// MIT license applies.  See "license.txt" for details.
 
 #pragma once
 
