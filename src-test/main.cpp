@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
 		const std::chrono::high_resolution_clock::time_point	start_time				= std::chrono::high_resolution_clock::now();
 		std::chrono::high_resolution_clock::time_point			next_frame_time_point	= start_time + duration;
 
+		size_t frame_index = 0;
 		while (true)
 		{
 			cv::Mat tmp;
@@ -97,19 +98,12 @@ int main(int argc, char *argv[])
 				break;
 			}
 
-			if (zoom_factor == 1.0)
-			{
-				frame = tmp;
-			}
-			else
-			{
-				cv::resize(tmp, frame, desired_frame_size, 0, 0, cv::INTER_LINEAR);
-			}
+			cv::resize(tmp, frame, desired_frame_size, 0, 0, cv::INTER_LINEAR);
 
 			const bool moved = movement_detection.detect(frame);
 			if (movement_detection.transition_detected)
 			{
-				std::cout << "-> starting at index #" << (movement_detection.next_frame_index - 1) << ": moved=" << (moved ? "TRUE" : "FALSE") << std::endl;
+				std::cout << "-> starting at index #" << frame_index << ": moved=" << (moved ? "TRUE" : "FALSE") << std::endl;
 			}
 
 			// The mask is a binary image.  We need to convert it to BGR so
@@ -126,6 +120,8 @@ int main(int argc, char *argv[])
 				video_output.write(mat);
 			}
 
+//			cv::imwrite("frame_" + std::to_string(frame_index) + ".png", mat, {cv::ImwriteFlags::IMWRITE_PNG_COMPRESSION, 9});
+
 			// wait for the right amount of time so the video is played back at the right FPS
 			const std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
 			if (now < next_frame_time_point)
@@ -140,12 +136,14 @@ int main(int argc, char *argv[])
 				// we've fallen too far behind, reset the time we need to show the next frame
 				next_frame_time_point = now + duration;
 			}
+
+			frame_index ++;
 		}
 
 		const std::chrono::high_resolution_clock::time_point end_time = std::chrono::high_resolution_clock::now();
 
 		std::cout
-			<< "-> processed " << movement_detection.next_frame_index << " frames" << std::endl
+			<< "-> processed " << frame_index << " frames" << std::endl
 			<< "-> time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << " milliseconds" << std::endl;
 	}
 
