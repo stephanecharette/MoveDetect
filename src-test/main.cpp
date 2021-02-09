@@ -120,13 +120,14 @@ int main(int argc, char *argv[])
 				video_output.write(mat);
 			}
 
-//			cv::imwrite("frame_" + std::to_string(frame_index) + ".png", mat, {cv::ImwriteFlags::IMWRITE_PNG_COMPRESSION, 9});
+//			cv::imwrite("frame_" + std::to_string(frame_index) + ".png", mat, {cv::ImwriteFlags::IMWRITE_PNG_COMPRESSION, 7});
+//			cv::imwrite("frame_" + std::to_string(frame_index) + ".jpg", mat, {cv::ImwriteFlags::IMWRITE_JPEG_QUALITY, 70});
 
 			// wait for the right amount of time so the video is played back at the right FPS
 			const std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
-			if (now < next_frame_time_point)
+			const int milliseconds_to_wait = std::chrono::duration_cast<std::chrono::milliseconds>(next_frame_time_point - now).count();
+			if (milliseconds_to_wait > 0)
 			{
-				const int milliseconds_to_wait = std::chrono::duration_cast<std::chrono::milliseconds>(next_frame_time_point - now).count();
 				cv::waitKey(milliseconds_to_wait);
 			}
 			next_frame_time_point += duration;
